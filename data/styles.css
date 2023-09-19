@@ -1,0 +1,188 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f5f5f5;
+}
+
+.chat-container {
+    width: 400px;
+    margin: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    padding-bottom: 50px;
+}
+
+.chat-messages {
+    height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-form {
+    display: flex;
+}
+
+.chat-form input[type="text"] {
+    flex-grow: 1;
+    border: none;
+    border-radius: 20px;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.chat-form button {
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.chat-form button:hover {
+    background-color: #0056b3;
+}
+
+.message {
+    max-width: 70%;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 10px;
+    color: white;
+    line-height: 1.2;
+}
+
+.message-incoming {
+    background-color: #007BFF;
+    text-align: left;
+    align-self: flex-start;
+}
+
+.message-outgoing {
+    background-color: purple;
+    text-align: right;
+    align-self: flex-end;
+}
+
+/* CSS rules for large screens (min-width: 600px) */
+@media screen and (min-width: 600px) {
+    .chat-container {
+        width: 600px;
+        margin: auto;
+        border: 1px solid #ccc;
+        padding: 20px;
+        padding-bottom: 50px;
+    }
+
+    .chat-messages {
+        height: 500px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .chat-form input[type="text"] {
+        flex-grow: 1;
+        border: none;
+        border-radius: 20px;
+        padding: 15px;
+        margin-right: 20px;
+    }
+
+    .chat-form button {
+        border: none;
+        background-color: #007BFF;
+        color: white;
+        padding: 15px 30px;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+    .message {
+        max-width: 80%;
+        margin-bottom: 15px;
+        padding: 10px;
+        border-radius: 15px;
+        color: white;
+        line-height: 1.4;
+    }
+
+    .message-incoming {
+        background-color: #007BFF;
+        text-align: left;
+        align-self: flex-start;
+    }
+
+    .message-outgoing {
+        background-color: purple;
+        text-align: right;
+        align-self: flex-end;
+    }
+}
+
+/* CSS rules for small screens (max-width: 600px) */
+@media screen and (max-width: 600px) {
+    .chat-container {
+        width: 100%;
+        margin: 0;
+        border: none;
+        padding: 10px;
+    }
+
+    .chat-messages {
+        height: 300px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .chat-form input[type="text"] {
+        flex-grow: 1;
+        border: none;
+        border-radius: 20px;
+        padding: 10px;
+        margin-right: 10px;
+    }
+
+    .chat-form button {
+        border: none;
+        background-color: #007BFF;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+    .message {
+        max-width: 70%;
+        margin-bottom: 10px;
+        padding: 5px;
+        border-radius: 10px;
+        color: white;
+        line-height: 1.2;
+    }
+
+    .message-incoming {
+        background-color: #007BFF;
+        text-align: left;
+        align-self: flex-start;
+    }
+
+    .message-outgoing {
+        background-color: purple;
+        text-align: right;
+        align-self: flex-end;
+    }
+}

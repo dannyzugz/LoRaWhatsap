@@ -22,10 +22,12 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
             // WebSocket data received
             if (len > 0) {
                 // Print the received message to the Serial Monitor
-                char *data = (char *) malloc(sizeof(char) * (len + 1));
-                strncpy(data, (const char *) midata, len);
-                Serial.println(data);
-                free(data);
+//                char *data = (char *) malloc(sizeof(char) * (len + 1));
+//                strncpy(data, (const char *) midata, len);
+//                Serial.println(data);
+//                free(data);
+                  Serial.println(String((const char *) midata));
+
 
                 // Additional processing of the message
                 // ...
