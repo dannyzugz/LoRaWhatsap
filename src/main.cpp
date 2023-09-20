@@ -2,12 +2,12 @@
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include "web_page.h"
+#include "wifi_config.h"
 
 AsyncWebServer server(80);
 AsyncWebSocket ws("/ws");
 
-
-void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *midata,
+void onEvent(AsyncWebSocket *myserver, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *midata,
              size_t len) {
 
     switch (type) {
@@ -45,9 +45,7 @@ void setup() {
     // put your setup code here, to run once:
     Serial.begin(9600);
 
-    // Configura el ESP32 en modo AP
-    WiFi.mode(WIFI_AP);
-    WiFi.softAP("LoRa_Chat");
+    setWifi();
 
     ws.onEvent(onEvent);
     server.addHandler(&ws);
