@@ -5,12 +5,12 @@
 #include <WiFi.h>
 #include "wifi_config.h"
 
-const char* ssid = "LoRaChat";
-const char* password = "12345";
+#define SSID "LoRaChat1"
+#define PASSWORD "12345678"
 
-void setWifi(){
+void setWifi() {
 
     // Configura el ESP32 en modo AP
     WiFi.mode(WIFI_AP);
-    WiFi.softAP(ssid, password);
+    WiFi.softAP(SSID, PASSWORD);
 }

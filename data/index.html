@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Interface</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="/styles.css"/>
 </head>
-<body>
-    <div class="chat-container" id = "chat-container">
-        <div class="chat-messages" id="chat-messages">
 
-        </div>
-        <form class="chat-form" id="chat-form">
-            <input type="text" id="message" placeholder="Escribe un mensaje...">
-            <button type="submit">Enviar</button>
-        </form>
+<body>
+<div class="chat-container" id="chat-container">
+    <div class="chat-messages" id="chat-messages">
+
     </div>
-    <script src="script.js"></script>
+    <form class="chat-form" id="chat-form">
+        <input type="text" id="message" placeholder="Escribe un mensaje..." autocomplete="off">
+        <button type="submit">Enviar</button>
+    </form>
+</div>
+
+<script src="/script.js"></script>
 </body>
+
 </html>
