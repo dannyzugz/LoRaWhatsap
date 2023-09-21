@@ -73,6 +73,12 @@ body {
     text-align: right;
     align-self: flex-end;
 }
+.timestamp {
+    display: block;
+    font-size: 0.7em;
+    color: grey;
+    text-align: right;
+}
 
 /* CSS rules for large screens (min-width: 600px) */
 @media screen and (min-width: 600px) {
@@ -129,6 +135,12 @@ body {
         text-align: right;
         align-self: flex-end;
     }
+    .timestamp {
+        display: block;
+        font-size: 0.7em;
+        color: grey;
+        text-align: right;
+    }
 }
 
 /* CSS rules for small screens (max-width: 600px) */
@@ -184,5 +196,11 @@ body {
         background-color: purple;
         text-align: right;
         align-self: flex-end;
+    }
+    .timestamp {
+        display: block;
+        font-size: 0.7em;
+        color: grey;
+        text-align: right;
     }
 }
