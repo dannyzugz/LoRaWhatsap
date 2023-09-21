@@ -2,6 +2,7 @@ const chatForm = document.getElementById('chat-form');
 const chatMessages = document.getElementById('chat-messages');
 
 const socket = new WebSocket('ws://' + location.hostname + ':80/ws');
+
 socket.onopen = (oevent) => {
   socket.onmessage =  (event) => {
     const messageincoming = event.data;
@@ -22,7 +23,7 @@ socket.onopen = (oevent) => {
 chatForm.addEventListener('submit', function (event) {
   event.preventDefault();
 
-  const message = chatForm.elements['message'].value;
+  let message = chatForm.elements['message'].value;
   socket.send(message);
   chatForm.elements['message'].value = '';
 
@@ -36,7 +37,7 @@ chatForm.addEventListener('submit', function (event) {
 
   chatMessages.appendChild(newMessage);
 
-
+   // message = '';
   // Scroll chat window to the bottom
   chatMessages.scrollTop = chatMessages.scrollHeight;
 });

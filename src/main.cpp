@@ -62,7 +62,12 @@ void onEvent(AsyncWebSocket *myserver, AsyncWebSocketClient *client, AwsEventTyp
 //                Serial.println(data);
 //                free(data);
                 Serial.println(String((const char *) midata));
+                Serial.println(len);
                 strncpy(my_data, reinterpret_cast<const char *>(midata), len + 1);
+                my_data[len] = '\0';
+                Serial.println(String((const char *) my_data));
+                //String((const char *) midata) = "";
+              //  midata = nullptr;
                 // Additional processing of the message
                 // ...
             }
@@ -127,9 +132,8 @@ void loop() {
     switch (state) {
         case STATE_TX:
             delay(1000);
-            Serial.printf("data to be sent: %s", my_data);
             sprintf(txpacket, "%s", my_data);
-            Serial.printf("\r\nsending packet \"%s\" , length %d\r\n", txpacket, strlen(txpacket));
+           Serial.printf("\r\nsending packet \"%s\" , length %d\r\n", txpacket, strlen(txpacket));
             Radio.Send((uint8_t *) txpacket, strlen(txpacket));
             strcpy(my_data, "");
             state = LOWPOWER;
@@ -149,13 +153,13 @@ void loop() {
 }
 
 void OnTxDone(void) {
-    Serial.print("TX done......");
+    //Serial.print("TX done......");
     state = STATE_RX;
 }
 
 void OnTxTimeout(void) {
     Radio.Sleep();
-    Serial.print("TX Timeout......");
+    //Serial.print("TX Timeout......");
     state = STATE_TX;
 }
 
@@ -167,7 +171,7 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr) {
     Radio.Sleep();
 
     Serial.printf("\r\nreceived packet \"%s\" with Rssi %d , length %d\r\n", rxpacket, Rssi, rxSize);
-    Serial.println("wait to send next packet");
+    //Serial.println("wait to send next packet");
     if (rxSize != 0) {
         ws.textAll(String(rxpacket));
     }
