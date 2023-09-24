@@ -18,6 +18,7 @@ socket.onopen = (oevent) => {
 
     // Scroll chat window to the bottom
     chatMessages.scrollTop = chatMessages.scrollHeight;
+    playSound(); // Play a sound
   };
 }
 
