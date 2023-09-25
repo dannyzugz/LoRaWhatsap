@@ -39,7 +39,7 @@ messageInput.addEventListener('input', function() {
 
 // Play a sound
 function playSound() {
-  const audio = new Audio('notif.mp3'); // Replace with your own sound file
+  const audio = new Audio(assets/notification_sound.mp3); // Replace with your own sound file
   audio.play();
 }
 
