@@ -37,17 +37,32 @@ messageInput.addEventListener('input', function() {
 });
 
 
-// Play a sound
-function playSound() {
-  const audio = new Audio(assets/notification_sound.mp3); // Replace with your own sound file
-  audio.play();
+async function playSound() {
+  const audioCtx = new AudioContext();
+  const response = await fetch('./assets/notification_sound.mp3');
+  const arrayBuffer = await response.arrayBuffer();
+  const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+  const source = audioCtx.createBufferSource();
+  source.buffer = audioBuffer;
+  source.connect(audioCtx.destination);
+  source.start();
 }
+
+
+// Play a sound
+// function playSound() {
+//   const audio = new Audio('./assets/notification-sound.mp3'); // Replace with your own sound file
+//   audio.play();
+// }
 
 
 
 //listener del formulario
 chatForm.addEventListener('submit', function (event) {
   event.preventDefault();
+  //playSound(); // Play a sound
+  x = 0;
+  charCounter.textContent = `${x}/200`;
 
   let message = chatForm.elements['message'].value;
   socket.send(message);
@@ -69,6 +84,7 @@ chatForm.addEventListener('submit', function (event) {
   const timeStamp = document.createElement('small');
   timeStamp.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   timeStamp.classList.add('timestamp');
+  
 
 
   // Adding the timestamp to the new message
@@ -83,4 +99,6 @@ chatForm.addEventListener('submit', function (event) {
    // message = '';
   // Scroll chat window to the bottom
   chatMessages.scrollTop = chatMessages.scrollHeight;
+
+
 });
