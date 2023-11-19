@@ -6,10 +6,10 @@
 #include "LoRaWan_APP.h"
 #include "SPIFFS.h"
 
-#define RF_FREQUENCY                                865000000 // Hz
-#define TX_OUTPUT_POWER                             5        // dBm
+#define RF_FREQUENCY                                923000000 // Hz
+#define TX_OUTPUT_POWER                             20        // dBm
 #define LORA_BANDWIDTH                              0         // [0: 125 kHz,
-#define LORA_SPREADING_FACTOR                       7         // [SF7..SF12]
+#define LORA_SPREADING_FACTOR                       12         // [SF7..SF12]
 #define LORA_CODINGRATE                             1         // [1: 4/5,
 #define LORA_PREAMBLE_LENGTH                        8         // Same for Tx and Rx
 #define LORA_SYMBOL_TIMEOUT                         0         // Symbols

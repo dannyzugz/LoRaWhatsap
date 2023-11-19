@@ -5,7 +5,7 @@
 #include <WiFi.h>
 #include "wifi_config.h"
 
-#define SSID "LoRaCha1"
+#define SSID "LoRaChat1"
 #define PASSWORD "12345678"
 
 void setWifi() {
