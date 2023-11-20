@@ -5,6 +5,8 @@
 #include "wifi_config.h"
 #include "LoRaWan_APP.h"
 #include "SPIFFS.h"
+#include "HT_SSD1306Wire.h"
+
 
 #define RF_FREQUENCY                                923000000 // Hz
 #define TX_OUTPUT_POWER                             20        // dBm
@@ -28,6 +30,10 @@ void OnTxTimeout(void);
 
 void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr);
 
+void displayMcuInit();
+void displaySendReceive();
+SSD1306Wire  display(0x3c, 500000, SDA_OLED, SCL_OLED, GEOMETRY_128_64, RST_OLED);
+
 
 typedef enum {
     LOWPOWER,
@@ -38,6 +44,8 @@ typedef enum {
 States_t state;
 int16_t Rssi, rxSize;
 char my_data[255];
+unsigned long tiempoAnterior = 0;
+
 
 AsyncWebServer server(80);
 AsyncWebSocket ws("/ws");
@@ -47,11 +55,11 @@ void onEvent(AsyncWebSocket *myserver, AsyncWebSocketClient *client, AwsEventTyp
 
     switch (type) {
         case WS_EVT_CONNECT:
-            Serial.printf("WebSocket client #%u connected from %s\n", client->id(),
-                          client->remoteIP().toString().c_str());
+//            Serial.printf("WebSocket client #%u connected from %s\n", client->id(),
+//                          client->remoteIP().toString().c_str());
             break;
         case WS_EVT_DISCONNECT:
-            Serial.printf("WebSocket client #%u disconnected\n", client->id());
+//            Serial.printf("WebSocket client #%u disconnected\n", client->id());
             break;
         case WS_EVT_DATA:
             // WebSocket data received
@@ -61,11 +69,11 @@ void onEvent(AsyncWebSocket *myserver, AsyncWebSocketClient *client, AwsEventTyp
 //                strncpy(data, (const char *) midata, len);
 //                Serial.println(data);
 //                free(data);
-                Serial.println(String((const char *) midata));
-                Serial.println(len);
+//                Serial.println(String((const char *) midata));
+//                Serial.println(len);
                 strncpy(my_data, reinterpret_cast<const char *>(midata), len + 1);
                 my_data[len] = '\0';
-                Serial.println(String((const char *) my_data));
+//                Serial.println(String((const char *) my_data));
                 //String((const char *) midata) = "";
               //  midata = nullptr;
                 // Additional processing of the message
@@ -83,6 +91,7 @@ void onEvent(AsyncWebSocket *myserver, AsyncWebSocketClient *client, AwsEventTyp
 void setup() {
     // put your setup code here, to run once:
     Serial.begin(9600);
+    Mcu.begin();
 
     // Initialize SPIFFS
     if (!SPIFFS.begin(true)) {
@@ -104,7 +113,7 @@ void setup() {
     // Start the server
     server.begin();
 
-    Mcu.begin();
+
     Rssi = 0;
 
     RadioEvents.TxDone = OnTxDone;
@@ -123,27 +132,61 @@ void setup() {
                       LORA_SYMBOL_TIMEOUT, LORA_FIX_LENGTH_PAYLOAD_ON,
                       0, true, false, 0, LORA_IQ_INVERSION_ON, true);
     state = STATE_TX;
+
+    display.init();
+    display.setFont(ArialMT_Plain_24);
+
+    delay(500);
+    display.clear();
+//    display.drawString(0, 0, "Heltec.LoRa Initial success!");
+    display.display();
 }
 
 
 void loop() {
+    unsigned long tiempoActual = millis();
     ws.cleanupClients();
+    String myrss ;
+    if (Rssi == 0){
+        myrss = " -- ";
+    } else{
+        myrss = String(Rssi);
+    }
+
+    display.clear();
+    display.setTextAlignment(TEXT_ALIGN_LEFT);
+    display.setFont(ArialMT_Plain_24);
+
+    display.drawString(0, 0, "RSSI: ");
+    display.drawString(80, 25, myrss);
+
+    display.display();
+
+    if (tiempoActual - tiempoAnterior >= 10000) {
+        // Ejecuta tu funci?n aqu?
+//        display.clear();
+        Rssi = 0;
+//        display.display();
+        // Actualiza el tiempo anterior
+        tiempoAnterior = tiempoActual;
+    }
 
     switch (state) {
         case STATE_TX:
-            delay(1000);
+            delay(500);
             sprintf(txpacket, "%s", my_data);
-           Serial.printf("\r\nsending packet \"%s\" , length %d\r\n", txpacket, strlen(txpacket));
+//           Serial.printf("\r\nsending packet \"%s\" , length %d\r\n", txpacket, strlen(txpacket));
             Radio.Send((uint8_t *) txpacket, strlen(txpacket));
             strcpy(my_data, "");
             state = LOWPOWER;
             break;
         case STATE_RX:
-            Serial.println("into RX mode");
+//            Serial.println("into RX mode");
             Radio.Rx(0);
             state = LOWPOWER;
             break;
         case LOWPOWER:
+
             Radio.IrqProcess();
             break;
         default:
@@ -170,10 +213,11 @@ void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr) {
     rxpacket[size] = '\0';
     Radio.Sleep();
 
-    Serial.printf("\r\nreceived packet \"%s\" with Rssi %d , length %d\r\n", rxpacket, Rssi, rxSize);
+    Serial.printf("\r\n%s\r\n", rxpacket);
     //Serial.println("wait to send next packet");
     if (rxSize != 0) {
         ws.textAll(String(rxpacket));
+
     }
     state = STATE_TX;
 }
