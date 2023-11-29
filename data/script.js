@@ -5,7 +5,7 @@ const charCounter = document.getElementById('char-counter');
 
 const socket = new WebSocket('ws://' + location.hostname + ':80/ws');
 
-socket.onopen = (oevent) => {
+socket.onopen = (event) => {
   socket.onmessage =  (event) => {
     const messageincoming = event.data;
     const messageElem = document.createElement('p');
